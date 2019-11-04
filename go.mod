@@ -1,4 +1,4 @@
-module bluecat
+module go-bluecat
 
 go 1.13
 
