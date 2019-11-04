@@ -91,7 +91,7 @@ type ResponsePolicySearchResult struct {
 func getAuthToken(server, user, pass string) (string, error) {
 	sessionToken := regexp.MustCompile(`^.*(BAMAuthToken:\s+[\w\=]+)\s+.*$`)
 
-	loginReq := fmt.Sprintf("https://%s%s/login?username=%s&password=%s", server, uri, user, pass)
+	loginReq := fmt.Sprintf("https://%s/Services/REST/v1/login?username=%s&password=%s", server, user, pass)
 	resp, err := resty.R().
 		SetHeader("Content-Type", "application/json").
 		Get(loginReq)
