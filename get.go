@@ -111,6 +111,8 @@ func (b *Bluecat) SearchByObjectTypes(keyword, objecttypes string, count, start 
 		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
 		Get(req)
 
+	fmt.Println(resp.String())
+
 	if err != nil {
 		return nil, fmt.Errorf("SearchByObjectTypes request error: %s", err)
 	}
