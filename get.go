@@ -7,6 +7,32 @@ import (
 	"gopkg.in/resty.v1"
 )
 
+// GetEntities returns multiple entities for the specified parent ID.
+//
+// Parameter `parentid` is the object ID of the parent object of the entities.
+// Parameter `objecttype` is the type of object to be returned. This value must be one of the object types constants.
+// Parameter `count` indicates the maximum number of child objects to return.
+// Parameter `start` indicates where in the list of child objects to start returning entities. The list begins at an index of 0.
+func (b *Bluecat) GetEntities(parentid int64, objecttype string, count, start int32) ([]APIEntity, error) {
+	var results []APIEntity
+	req := fmt.Sprintf("https://%s%s/getEntities?parentId=%d&type=%s&count=%d&start=%d",
+		b.Server, b.URI, parentid, objecttype, count, start)
+	resp, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return nil, fmt.Errorf("GetEntities request error: %s", err)
+	}
+
+	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
+		return nil, fmt.Errorf("GetEntities JSON parse error: %s", err)
+	}
+
+	return results, nil
+}
+
 // CustomSearch searches for an array of entities by specifying object properties.
 //
 // Parameter `objecttype` must be one of the following object types: IP4Block, IP4Network, IP4Addr, GenericRecord, HostRecord,
