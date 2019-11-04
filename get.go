@@ -80,11 +80,11 @@ func (b *Bluecat) GetAccessRight(entityid, userid int64) (APIAccessRight, error)
 		Get(req)
 
 	if err != nil {
-		return nil, fmt.Errorf("GetAccessRight request error: %s", err)
+		return results, fmt.Errorf("GetAccessRight request error: %s", err)
 	}
 
 	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
-		return nil, fmt.Errorf("GetAccessRight JSON parse error: %s", err)
+		return results, fmt.Errorf("GetAccessRight JSON parse error: %s", err)
 	}
 
 	return results, nil
