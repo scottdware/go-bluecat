@@ -104,14 +104,12 @@ func (b *Bluecat) SearchByCategory(keyword, category string, count, start int32)
 // The list begins at an index of 0. This value cannot be null or empty.
 func (b *Bluecat) SearchByObjectTypes(keyword, objecttypes string, count, start int32) ([]APIEntity, error) {
 	var results []APIEntity
-	req := fmt.Sprintf("https://%s%s/searchByObjectTypes?keyword=%stypes=%s&count=%d&start=%d",
+	req := fmt.Sprintf("https://%s%s/searchByObjectTypes?keyword=%s&types=%s&count=%d&start=%d",
 		b.Server, b.URI, keyword, objecttypes, count, start)
 	resp, err := resty.R().
 		SetHeader("Content-Type", "application/json").
 		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
 		Get(req)
-
-	fmt.Println(resp.String())
 
 	if err != nil {
 		return nil, fmt.Errorf("SearchByObjectTypes request error: %s", err)
