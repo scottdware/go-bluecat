@@ -69,7 +69,7 @@ func (b *Bluecat) CustomSearch(objecttype, filters string, count, start int32) (
 func (b *Bluecat) SearchByCategory(keyword, category string, count, start int32) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/searchByCategory?keyword=%s&category=%s&count=%d&start=%d",
-		b.Server, b.URI, objecttype, filters, count, start)
+		b.Server, b.URI, keyword, category, count, start)
 	resp, err := resty.R().
 		SetHeader("Content-Type", "application/json").
 		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
