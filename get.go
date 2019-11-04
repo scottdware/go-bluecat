@@ -22,8 +22,6 @@ func (b *Bluecat) GetEntities(parentid int64, objecttype string, count, start in
 		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
 		Get(req)
 
-	fmt.Printf("%+v\n", resp)
-
 	if err != nil {
 		return nil, fmt.Errorf("GetEntities request error: %s", err)
 	}
