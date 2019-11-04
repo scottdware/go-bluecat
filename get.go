@@ -21,8 +21,8 @@ func (b *Bluecat) GetEntities(parentid int64, objecttype string, count, start in
 		SetHeader("Content-Type", "application/json").
 		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
 		Get(req)
-	
-	fmt.Println(resp.String())
+
+	fmt.Printf("%+v\n", resp)
 
 	if err != nil {
 		return nil, fmt.Errorf("GetEntities request error: %s", err)
@@ -40,7 +40,7 @@ func (b *Bluecat) GetEntities(parentid int64, objecttype string, count, start in
 // Parameter `objecttype` must be one of the following object types: IP4Block, IP4Network, IP4Addr, GenericRecord, HostRecord,
 // Any other objects with user-defined fields.
 //
-// Parameter `filters` is the list of properties on which the search will be based. The valid format is Field name=value. 
+// Parameter `filters` is the list of properties on which the search will be based. The valid format is Field name=value.
 // Parameter `count` is the maximum number of objects to return. The value must be a positive value between 1 and 1000.
 // This value cannot be null or empty.
 //
@@ -72,7 +72,7 @@ func (b *Bluecat) CustomSearch(objecttype, filters string, count, start int32) (
 // To view a complete list of all local response policies under all configurations that have an associated response
 // policy item, set the value of this parameter to 0.
 //
-// Parameter `itemname` is the Fully Qualified Domain Name FQDN of the response policy item. The exact FQDN of the 
+// Parameter `itemname` is the Fully Qualified Domain Name FQDN of the response policy item. The exact FQDN of the
 // response policy item must be used when conducting a search.
 func (b *Bluecat) FindResponsePoliciesWithItem(configid int64, itemname string) ([]APIEntity, error) {
 	var results []APIEntity
