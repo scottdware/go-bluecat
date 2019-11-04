@@ -7,6 +7,34 @@ import (
 	"gopkg.in/resty.v1"
 )
 
+// GetEntitiesByName returns an array of entities that match the specified parent, name, and object type.
+//
+// Parameter `name` is the name of the entity.
+// Parameter `parentid` is the object ID of the parent object of the entities to be returned.
+// Parameter `objecttype` is the type of object to be returned. This value must be one of the object types constants.
+// Parameter `count` is the maximum number of objects to return. The default value is 10. This value cannot be null or empty.
+// Parameter `start` indicates where in the list of returned objects to start returning objects. The list begins at an index of 0.
+// This value cannot be null or empty.
+func (b *Bluecat) GetEntitiesByName(name string, parentid int64, objecttype string, count, start int32) ([]APIEntity, error) {
+	var results []APIEntity
+	req := fmt.Sprintf("https://%s%s/getEntitiesByName?name=%s&parentId=%d&type=%s&count=%d&start=%d",
+		b.Server, b.URI, name, parentid, objecttype, count, start)
+	resp, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return nil, fmt.Errorf("GetEntitiesByName request error: %s", err)
+	}
+
+	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
+		return nil, fmt.Errorf("GetEntitiesByName JSON parse error: %s", err)
+	}
+
+	return results, nil
+}
+
 // GetEntities returns multiple entities for the specified parent ID.
 //
 // Parameter `parentid` is the object ID of the parent object of the entities.
@@ -28,6 +56,133 @@ func (b *Bluecat) GetEntities(parentid int64, objecttype string, count, start in
 
 	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
 		return nil, fmt.Errorf("GetEntities JSON parse error: %s", err)
+	}
+
+	return results, nil
+}
+
+// GetEntityByCIDR returns an IPv4 Network object from the database by calling it using CIDR notation.
+//
+// Parameter `cidr` is the CIDR notation of the IP4Network object type.
+// Parameter `parentid` is the object ID of the network’s parent object.
+// Parameter `objecttype` is the type of object returned: IP4Network. This must be one of the constants types constants.
+func (b *Bluecat) GetEntityByCIDR(cidr string, parentid int64, objecttype string) (APIEntity, error) {
+	var results APIEntity
+	req := fmt.Sprintf("https://%s%s/getEntityByCIDR?cidr=%s&parentId=%d&type=%s",
+		b.Server, b.URI, cidr, parentid, objecttype)
+	resp, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return results, fmt.Errorf("GetEntityByCIDR request error: %s", err)
+	}
+
+	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
+		return results, fmt.Errorf("GetEntityByCIDR JSON parse error: %s", err)
+	}
+
+	return results, nil
+}
+
+// GetEntityByID returns objects from the database referenced by their database ID and with its properties fields populated.
+// For more information about the available options, refer to IPv4 objects in the Property Options Reference section of the API
+// guide.
+//
+// Parameter `id` is the object ID of the target object.
+func (b *Bluecat) GetEntityByID(id int64) (APIEntity, error) {
+	var results APIEntity
+	req := fmt.Sprintf("https://%s%s/getEntityById?id=%d",
+		b.Server, b.URI, id)
+	resp, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return results, fmt.Errorf("GetEntityByID request error: %s", err)
+	}
+
+	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
+		return results, fmt.Errorf("GetEntityByID JSON parse error: %s", err)
+	}
+
+	return results, nil
+}
+
+// GetEntityByName returns objects from the database referenced by their name field.
+//
+// Parameter `name` is the name of the entity.
+// Parameter `parentid` is the ID of the target object’s parent object.
+// Parameter `objecttype` is the type of object returned by the method. This string must be one of the object type constants.
+func (b *Bluecat) GetEntityByName(name string, parentid int64, objecttype string) (APIEntity, error) {
+	var results APIEntity
+	req := fmt.Sprintf("https://%s%s/getEntityByName?name=%s&parentId=%d&type=%s",
+		b.Server, b.URI, name, parentid, objecttype)
+	resp, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return results, fmt.Errorf("GetEntityByName request error: %s", err)
+	}
+
+	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
+		return results, fmt.Errorf("GetEntityByName JSON parse error: %s", err)
+	}
+
+	return results, nil
+}
+
+// GetEntityByPrefix returns an APIEntity for the specified IP block or network.
+//
+// Parameter `containerid` is the object ID of higher-level parent object IP block or configuration
+// in which the IP block or network is located.
+// Parameter `prefix` is the prefix value for the IP block or network. This value cannot be empty.
+// Parameter `objecttype` is the type of object to be returned. This string must be one of the object type constants.
+func (b *Bluecat) GetEntityByPrefix(containerid int64, prefix, objecttype string) (APIEntity, error) {
+	var results APIEntity
+	req := fmt.Sprintf("https://%s%s/getEntityByPrefix?containerId=%d&prefix=%s&type=%s",
+		b.Server, b.URI, containerid, prefix, objecttype)
+	resp, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return results, fmt.Errorf("GetEntityByPrefix request error: %s", err)
+	}
+
+	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
+		return results, fmt.Errorf("GetEntityByPrefix JSON parse error: %s", err)
+	}
+
+	return results, nil
+}
+
+// GetEntityByRange returns an IPv4 DHCP range object by calling it using its range.
+//
+// Parameter `address1` is an IP address defining the lowest address or start of the range.
+// Parameter `address2` is an IP address defining the highest address or end of the range.
+// Parameter `parentid` is the object ID of the parent object of the DHCP range.
+// Parameter `objecttype` is the type of object returned: DHCP4Range. This must be one of the object type constants.
+func (b *Bluecat) GetEntityByRange(address1, address2 string, parentid int64, objecttype string) (APIEntity, error) {
+	var results APIEntity
+	req := fmt.Sprintf("https://%s%s/getEntityByRange?address1=%s&address2=%s&parentId=%d&type=%s",
+		b.Server, b.URI, address1, address2, parentid, objecttype)
+	resp, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return results, fmt.Errorf("GetEntityByRange request error: %s", err)
+	}
+
+	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
+		return results, fmt.Errorf("GetEntityByRange JSON parse error: %s", err)
 	}
 
 	return results, nil
