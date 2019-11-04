@@ -66,6 +66,14 @@ func (b *Bluecat) CustomSearch(objecttype, filters string, count, start int32) (
 	return results, nil
 }
 
+// SearchByCategory returns an array of entities by searching for keywords associated with objects of
+// a specified object category.
+//
+// Parameter `keyword` is the search keyword string. This value cannot be null or empty.
+// Parameter `category` is the entity category to be searched.
+// Parameter `count` is the maximum number of objects to return. The default value is 10. This value cannot be null or empty.
+// Parameter `start` indicates where in the list of returned objects to start returning objects.
+// The list begins at an index of 0. This value cannot be null or empty.
 func (b *Bluecat) SearchByCategory(keyword, category string, count, start int32) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/searchByCategory?keyword=%s&category=%s&count=%d&start=%d",
@@ -86,6 +94,14 @@ func (b *Bluecat) SearchByCategory(keyword, category string, count, start int32)
 	return results, nil
 }
 
+// SearchByObjectTypes returns an array of entities by searching for keywords associated with objects of a
+// specified object type. You can search for multiple object types with a single method call.
+//
+// Parameter `keyword` is the search keyword string. This value cannot be null or empty.
+// Parameter `objecttypes` is the object types for which to search, specified in the format: "type1[,type2...]"
+// Parameter `count` is the maximum number of objects to return. The default value is 10. This value cannot be null or empty.
+// Parameter `start` indicates where in the list of returned objects to start returning objects.
+// The list begins at an index of 0. This value cannot be null or empty.
 func (b *Bluecat) SearchByObjectTypes(keyword, objecttypes string, count, start int32) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/searchByObjectTypes?keyword=%stypes=%s&count=%d&start=%d",
