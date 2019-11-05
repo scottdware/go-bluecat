@@ -25,11 +25,11 @@ func (b *Bluecat) GetEntitiesByName(name string, parentid int64, objecttype stri
 		Get(req)
 
 	if err != nil {
-		return nil, fmt.Errorf("GetEntitiesByName request error: %s", err)
+		return nil, fmt.Errorf("%s - GetEntitesByName request error", err)
 	}
 
 	if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
-		return nil, fmt.Errorf("GetEntitiesByName JSON parse error: %s", err)
+		return nil, fmt.Errorf("%s - GetEntitiesByName JSON error", err)
 	}
 
 	return results, nil

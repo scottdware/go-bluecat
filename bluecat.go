@@ -89,7 +89,7 @@ type ResponsePolicySearchResult struct {
 // getAuthToken returns the Bluecat session authentication token which is used to authenticate
 // all of the API calls to the BLuecat server.
 func getAuthToken(server, user, pass string) (string, error) {
-	sessionToken := regexp.MustCompile(`^.*(BAMAuthToken:\s+[\w\=]+)\s+.*$`)
+	sessionToken := regexp.MustCompile(`^.*(BAMAuthToken:\s+[\w=]+)\s+.*$`)
 
 	loginReq := fmt.Sprintf("https://%s/Services/REST/v1/login?username=%s&password=%s", server, user, pass)
 	resp, err := resty.R().
@@ -97,12 +97,12 @@ func getAuthToken(server, user, pass string) (string, error) {
 		Get(loginReq)
 
 	if err != nil {
-		return "", fmt.Errorf("Login error: %s", err)
+		return "", fmt.Errorf("login - %s", err)
 	}
 
 	token := sessionToken.FindStringSubmatch(resp.String())
 	if len(token) <= 0 {
-		return "", fmt.Errorf("Auth Token error: %s", string(resp.Body()))
+		return "", fmt.Errorf("auth token - %s", string(resp.Body()))
 	}
 
 	return token[1], nil
@@ -116,7 +116,7 @@ func init() {
 func NewSession(server, user, pass string) (*Bluecat, error) {
 	token, err := getAuthToken(server, user, pass)
 	if err != nil {
-		return nil, fmt.Errorf("Session Initialization error: %s", err)
+		return nil, fmt.Errorf("session init - %s", err)
 	}
 
 	bc := &Bluecat{
