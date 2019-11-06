@@ -3,6 +3,7 @@ package bluecat
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"gopkg.in/resty.v1"
 )
@@ -474,7 +475,8 @@ func (b *Bluecat) GetAdditionalIPAddresses(adonisid int64, properties string) (s
 		return "", fmt.Errorf("%s - GetAdditionalIPAddresses request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetAliasesByHint returns an array of CNAMEs with linked record name.
@@ -550,7 +552,6 @@ func (b *Bluecat) GetAllUsedLocations() ([]APIEntity, error) {
 //
 // Returns a list of configuration groups. Return type is a string.
 func (b *Bluecat) GetConfigurationGroups() (string, error) {
-	//var results []string
 	req := fmt.Sprintf("https://%s%s/getConfigurationGroups",
 		b.Server, b.URI)
 	resp, err := resty.R().
@@ -562,11 +563,8 @@ func (b *Bluecat) GetConfigurationGroups() (string, error) {
 		return "", fmt.Errorf("%s - GetConfigurationGroups request", err)
 	}
 
-	//if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
-	//	return nil, fmt.Errorf("GetConfigurationGroups JSON parse error: %s", err)
-	//}
-
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetConfigurationSetting returns the configuration setting.
@@ -587,7 +585,8 @@ func (b *Bluecat) GetConfigurationSetting(configurationid int64, setting string)
 		return "", fmt.Errorf("%s - GetConfigurationGroups request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetConfigurationsByGroup gets a list of configurations in Address Manager based on the name of a configuration group.
@@ -984,7 +983,8 @@ func (b *Bluecat) GetDeploymentTaskStatus(deploymenttasktoken string) (string, e
 		return "", fmt.Errorf("%s - GetDeploymentTaskStatus request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetDiscoveredDeviceArpEntries returns all ARP entries of a specific device discovered by running an IPv4 reconciliation policy.
@@ -1491,7 +1491,8 @@ func (b *Bluecat) GetKSK(entityid int64, format string) (string, error) {
 		return "", fmt.Errorf("%s - GetKSK request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetLinkedEntities returns an array of entities containing the entities linked to a specified entity. The array is
@@ -1611,7 +1612,8 @@ func (b *Bluecat) GetMaxAllowedRange(rangeid int64) (string, error) {
 		return "", fmt.Errorf("%s - GetMaxAllowedRange request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetNetworkLinkedProperties returns an array of IP addresses with linked records and the IP addresses that are
@@ -1657,7 +1659,8 @@ func (b *Bluecat) GetNextAvailableIP4Address(parentid int64) (string, error) {
 		return "", fmt.Errorf("%s - GetNextAvailableIP4Address request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetNextAvailableIP4Network returns the object ID for the next available (unused) network within a configuration or block.
@@ -1683,7 +1686,8 @@ func (b *Bluecat) GetNextAvailableIP4Network(autocreate, islargerallowed bool, p
 		return "", fmt.Errorf("%s - GetNextAvailableIP4Network request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetNextAvailableIPRange returns the object ID for the next available (unused) block or network within a configuration or block.
@@ -1825,7 +1829,8 @@ func (b *Bluecat) GetNextIP4Address(parentid int64, properties string) (string, 
 		return "", fmt.Errorf("%s - GetNextIP4Address request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetParent returns the parent entity of a given entity.
@@ -1897,7 +1902,8 @@ func (b *Bluecat) GetProbeStatus(definedprobe string) (string, error) {
 		return "", fmt.Errorf("%s - GetProbeStatus request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetReplicationInfo retrieves information regarding the status of replication in Address Manager through the API.
@@ -1916,7 +1922,8 @@ func (b *Bluecat) GetReplicationInfo() (string, error) {
 		return "", fmt.Errorf("%s - GetReplicationInfo request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetServerDeploymentRoles returns a list of all deployment roles associated with the server.
@@ -1962,7 +1969,8 @@ func (b *Bluecat) GetServerDeploymentStatus(properties string, serverid int64) (
 		return "", fmt.Errorf("%s - GetServerDeploymentStatus request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetServerForRole returns a list of all servers associated with the specified deployment role.
@@ -2032,7 +2040,8 @@ func (b *Bluecat) GetSystemInfo() (string, error) {
 		return "", fmt.Errorf("%s - GetSystemInfo request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetTemplateTaskStatus gets the IPv4 template task status when the template is applied.
@@ -2052,7 +2061,8 @@ func (b *Bluecat) GetTemplateTaskStatus(taskid int64) (string, error) {
 		return "", fmt.Errorf("%s - GetTemplateTaskStatus request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // GetUserDefinedFields returns the user-defined fields information.
@@ -2147,7 +2157,8 @@ func (b *Bluecat) IsAddressAllocated(configid int64, ipaddress, macaddress strin
 		return "", fmt.Errorf("%s - IsAddressAllocated request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
 
 // IsMigrationRunning returns true or false to indicate if the migration service is running. Specify a filename to
@@ -2171,5 +2182,6 @@ func (b *Bluecat) IsMigrationRunning(filename string) (string, error) {
 		return "", fmt.Errorf("%s - IsMigrationRunning request", err)
 	}
 
-	return resp.String(), nil
+	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
+	return formatted, nil
 }
