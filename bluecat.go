@@ -97,12 +97,12 @@ func getAuthToken(server, user, pass string) (string, error) {
 		Get(loginReq)
 
 	if err != nil {
-		return "", fmt.Errorf("login - %s", err)
+		return "", fmt.Errorf("%s - getAuthToken login", err)
 	}
 
 	token := sessionToken.FindStringSubmatch(resp.String())
 	if len(token) <= 0 {
-		return "", fmt.Errorf("auth token - %s", string(resp.Body()))
+		return "", fmt.Errorf("%s - getAuthToken token parse", string(resp.Body()))
 	}
 
 	return token[1], nil
@@ -116,7 +116,7 @@ func init() {
 func NewSession(server, user, pass string) (*Bluecat, error) {
 	token, err := getAuthToken(server, user, pass)
 	if err != nil {
-		return nil, fmt.Errorf("session init - %s", err)
+		return nil, fmt.Errorf("%s - NewSession initialization", err)
 	}
 
 	bc := &Bluecat{
