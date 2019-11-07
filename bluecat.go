@@ -1,4 +1,8 @@
 // Package bluecat is Go client to interact with the Bluecat API.
+//
+// This library includes all of the methods that are available in the Bluecat API. All method documentation
+// in this library exactly mirrors the official Bluecat API documentation. Please visit https://bluecatnetworks.com
+// for more information.
 package bluecat
 
 import (
