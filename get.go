@@ -2185,3 +2185,23 @@ func (b *Bluecat) IsMigrationRunning(filename string) (string, error) {
 	formatted := strings.TrimLeft(strings.TrimRight(resp.String(), "\""), "\"")
 	return formatted, nil
 }
+
+// LinkEntities establishes a link between two specified Address Manager entities.
+//
+// Parameter `entity1id` is the object ID of the first entity in the pair of linked entities. Parameter `entity2id` is
+// the object ID of the second entity in the pair of linked entities. Parameter `properties` Adds object properties,
+// including user-defined fields.
+func (b *Bluecat) LinkEntities(entity1id, entity2id int64, properties string) error {
+	req := fmt.Sprintf("https://%s%s/linkEntities?entity1Id=%d&entity2Id=%d&properties=%s",
+		b.Server, b.URI, entity1id, entity2id, properties)
+	_, err := resty.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("%s", b.AuthToken)).
+		Get(req)
+
+	if err != nil {
+		return fmt.Errorf("%s - LinkEntities request", err)
+	}
+
+	return nil
+}
