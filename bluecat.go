@@ -90,6 +90,7 @@ type ResponsePolicySearchResult struct {
 // all of the API calls to the BLuecat server.
 func getAuthToken(server, user, pass string) (string, error) {
 	sessionToken := regexp.MustCompile(`^.*(BAMAuthToken:\s+[\w=]+)\s+.*$`)
+	connErr := regexp.MustCompile(`Get https.*:\s+(.*)`)
 
 	loginReq := fmt.Sprintf("https://%s/Services/REST/v1/login?username=%s&password=%s", server, user, pass)
 	resp, err := resty.R().
@@ -97,7 +98,9 @@ func getAuthToken(server, user, pass string) (string, error) {
 		Get(loginReq)
 
 	if err != nil {
-		return "", fmt.Errorf("%s - getAuthToken login", err)
+		formatted := connErr.ReplaceAllString(fmt.Sprintf("%s", err), "${1}")
+		return "", fmt.Errorf("%s - getAuthToken login", formatted)
+		//return "", fmt.Errorf("%s - getAuthToken login", err)
 	}
 
 	token := sessionToken.FindStringSubmatch(resp.String())
