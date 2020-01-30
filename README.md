@@ -1,4 +1,5 @@
 ## go-bluecat
+
 An [Go](https://golang.org) client to interact with the [Bluecat] API.
 
 [![GoDoc](https://godoc.org/github.com/scottdware/go-bluecat?status.svg)](https://godoc.org/github.com/scottdware/go-bluecat)
@@ -10,7 +11,7 @@ more information.
 View the full package documentation [here](https://godoc.org/github.com/scottdware/go-bluecat), or by using the `godoc | reference`
 button above.
 
-* **_Currently, only the `GET` methods are 
-  supported, but the `POST/PUT/DELETE` methods will be available in the next week or two._** 
+* **_Currently, only the `GET` methods are
+  supported, but the `POST/PUT/DELETE` methods will be available soon._**
 
 [Bluecat]: https://bluecatnetworks.com
