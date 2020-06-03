@@ -2,6 +2,7 @@ package bluecat
 
 import (
 	"fmt"
+	"strings"
 
 	"gopkg.in/resty.v1"
 )
@@ -89,9 +90,9 @@ func (b *Bluecat) AddGenericRecord(absolutename, properties, rdata string, ttl i
 		return "", fmt.Errorf("%s - addGenericRecord request", err)
 	}
 
-	// if err := json.Unmarshal([]byte(resp.String()), &results); err != nil {
-	// 	return nil, fmt.Errorf("%s - GetEntitiesByName JSON parse", err)
-	// }
+	if strings.Contains(resp.String(), "Invalid") {
+		return "", fmt.Errorf("%s - addGenericRecord response", resp.String())
+	}
 
 	return resp.String(), nil
 }
