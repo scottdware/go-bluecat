@@ -101,6 +101,8 @@ func getAuthToken(server, user, pass string) (string, error) {
 		SetHeader("Content-Type", "application/json").
 		Get(loginReq)
 
+	fmt.Println(resp.String())
+
 	if err != nil {
 		formatted := connErr.ReplaceAllString(fmt.Sprintf("%s", err), "${1}")
 		return "", fmt.Errorf("%s - getAuthToken login", formatted)
