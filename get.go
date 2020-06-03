@@ -17,7 +17,7 @@ import (
 // returning objects. The list begins at an index of 0. This value cannot be null or empty.
 //
 // Returns an array of type APIEntity. The array is empty if there are no matching entities.
-func (b *Bluecat) GetEntitiesByName(name string, parentid int64, objecttype string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetEntitiesByName(name string, parentid int, objecttype string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntitiesByName?name=%s&parentId=%d&type=%s&count=%d&start=%d",
 		b.Server, b.URI, name, parentid, objecttype, count, start)
@@ -45,7 +45,7 @@ func (b *Bluecat) GetEntitiesByName(name string, parentid int64, objecttype stri
 // entities. The list begins at an index of 0.
 //
 // Returns an array of type APIEntity. The array is empty if there are no matching entities.
-func (b *Bluecat) GetEntities(parentid int64, objecttype string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetEntities(parentid int, objecttype string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntities?parentId=%d&type=%s&count=%d&start=%d",
 		b.Server, b.URI, parentid, objecttype, count, start)
@@ -72,7 +72,7 @@ func (b *Bluecat) GetEntities(parentid int64, objecttype string, count, start in
 // constants types constants.
 //
 // Returns the specified IPv4 block object from the database. Return type is APIEntity.
-func (b *Bluecat) GetEntityByCIDR(cidr string, parentid int64, objecttype string) (APIEntity, error) {
+func (b *Bluecat) GetEntityByCIDR(cidr string, parentid int, objecttype string) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntityByCIDR?cidr=%s&parentId=%d&type=%s",
 		b.Server, b.URI, cidr, parentid, objecttype)
@@ -99,7 +99,7 @@ func (b *Bluecat) GetEntityByCIDR(cidr string, parentid int64, objecttype string
 // Parameter `id` is the object ID of the target object.
 //
 // Returns the requested object from the database with its properties fields populated. Retury type is APIEntity.
-func (b *Bluecat) GetEntityByID(id int64) (APIEntity, error) {
+func (b *Bluecat) GetEntityByID(id int) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntityById?id=%d",
 		b.Server, b.URI, id)
@@ -125,7 +125,7 @@ func (b *Bluecat) GetEntityByID(id int64) (APIEntity, error) {
 // Parameter `objecttype` is the type of object returned by the method. This string must be one of the object type constants.
 //
 // Returns an array of entities. The array is empty if there are no matching entities. Return type is APIEntity.
-func (b *Bluecat) GetEntityByName(name string, parentid int64, objecttype string) (APIEntity, error) {
+func (b *Bluecat) GetEntityByName(name string, parentid int, objecttype string) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntityByName?name=%s&parentId=%d&type=%s",
 		b.Server, b.URI, name, parentid, objecttype)
@@ -153,7 +153,7 @@ func (b *Bluecat) GetEntityByName(name string, parentid int64, objecttype string
 // the object type constants.
 //
 // Returns an APIEntity for the specified IPv6 block or network. The APIEntity is empty if the block or network does not exist.
-func (b *Bluecat) GetEntityByPrefix(containerid int64, prefix, objecttype string) (APIEntity, error) {
+func (b *Bluecat) GetEntityByPrefix(containerid int, prefix, objecttype string) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntityByPrefix?containerId=%d&prefix=%s&type=%s",
 		b.Server, b.URI, containerid, prefix, objecttype)
@@ -180,7 +180,7 @@ func (b *Bluecat) GetEntityByPrefix(containerid int64, prefix, objecttype string
 // of the DHCP range. Parameter `objecttype` is the type of object returned: DHCP4Range. This must be one of the object type constants.
 //
 // Returns the requested IPv4 block object from the database. Return type is APIEntity.
-func (b *Bluecat) GetEntityByRange(address1, address2 string, parentid int64, objecttype string) (APIEntity, error) {
+func (b *Bluecat) GetEntityByRange(address1, address2 string, parentid int, objecttype string) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntityByRange?address1=%s&address2=%s&parentId=%d&type=%s",
 		b.Server, b.URI, address1, address2, parentid, objecttype)
@@ -214,7 +214,7 @@ func (b *Bluecat) GetEntityByRange(address1, address2 string, parentid int64, ob
 //
 // Returns an array of type APIEntity matching the specified object properties or returns an empty array. The APIEntity will
 // at least contain Object Type, Object ID, Object Name, and Object Properties.
-func (b *Bluecat) CustomSearch(filters, objecttype string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) CustomSearch(filters, objecttype string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/customSearch?filters=%s&type=%s&count=%d&start=%d",
 		b.Server, b.URI, filters, objecttype, count, start)
@@ -243,7 +243,7 @@ func (b *Bluecat) CustomSearch(filters, objecttype string, count, start int32) (
 // of returned objects to start returning objects. The list begins at an index of 0. This value cannot be null or empty.
 //
 // Returns an array of type APIEntity matching the keyword text and the category type, or returns an empty array.
-func (b *Bluecat) SearchByCategory(keyword, category string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) SearchByCategory(keyword, category string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/searchByCategory?keyword=%s&category=%s&count=%d&start=%d",
 		b.Server, b.URI, keyword, category, count, start)
@@ -273,7 +273,7 @@ func (b *Bluecat) SearchByCategory(keyword, category string, count, start int32)
 // at an index of 0. This value cannot be null or empty.
 //
 // Returns an array of type APIEntity matching the keyword text and the category type, or returns an empty array.
-func (b *Bluecat) SearchByObjectTypes(keyword, objecttypes string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) SearchByObjectTypes(keyword, objecttypes string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/searchByObjectTypes?keyword=%s&types=%s&count=%d&start=%d",
 		b.Server, b.URI, keyword, objecttypes, count, start)
@@ -320,7 +320,7 @@ func (b *Bluecat) SearchByObjectTypes(keyword, objecttypes string, count, start 
 //
 // Returns an array of ResponsePolicySearchResult objects. Each object contains information of one Response Policy item
 // found either in local Response Policies or BlueCat Security feed data.
-func (b *Bluecat) SearchResponsePolicyItem(keyword, scope string, count, start int32) ([]ResponsePolicySearchResult, error) {
+func (b *Bluecat) SearchResponsePolicyItem(keyword, scope string, count, start int) ([]ResponsePolicySearchResult, error) {
 	var results []ResponsePolicySearchResult
 	req := fmt.Sprintf("https://%s%s/searchResponsePolicyItem?keyword=%s&scope=%s&count=%d&start=%d",
 		b.Server, b.URI, keyword, scope, count, start)
@@ -349,7 +349,7 @@ func (b *Bluecat) SearchResponsePolicyItem(keyword, scope string, count, start i
 //
 // Returns a list (array) of type APIEntity, of local response policies along with the associated response policy item under
 // a specific configuration or all configurations. This is determined by the input provided for the configurationId parameter.
-func (b *Bluecat) FindResponsePoliciesWithItem(configid int64, itemname string) ([]APIEntity, error) {
+func (b *Bluecat) FindResponsePoliciesWithItem(configid int, itemname string) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/findResponsePoliciesWithItem?configurationId=%d&itemName=%s",
 		b.Server, b.URI, configid, itemname)
@@ -375,7 +375,7 @@ func (b *Bluecat) FindResponsePoliciesWithItem(configid int64, itemname string) 
 // Parameter `userid` is the object ID of the user to whom the access right is applied.
 //
 // Returns the access right for the specified object. Return type is APIAccessRight.
-func (b *Bluecat) GetAccessRight(entityid, userid int64) (APIAccessRight, error) {
+func (b *Bluecat) GetAccessRight(entityid, userid int) (APIAccessRight, error) {
 	var results APIAccessRight
 	req := fmt.Sprintf("https://%s%s/getAccessRight?entityId=%d&userId=%d",
 		b.Server, b.URI, entityid, userid)
@@ -403,7 +403,7 @@ func (b *Bluecat) GetAccessRight(entityid, userid int64) (APIAccessRight, error)
 // The list begins at an index of 0.
 //
 // Returns an array of type APIAccessRight objects.
-func (b *Bluecat) GetAccessRightsForEntity(entityid int64, count, start int32) ([]APIAccessRight, error) {
+func (b *Bluecat) GetAccessRightsForEntity(entityid int, count, start int) ([]APIAccessRight, error) {
 	var results []APIAccessRight
 	req := fmt.Sprintf("https://%s%s/getAccessRightsForEntity?entityId=%d&count=%d&start=%d",
 		b.Server, b.URI, entityid, count, start)
@@ -431,7 +431,7 @@ func (b *Bluecat) GetAccessRightsForEntity(entityid int64, count, start int32) (
 // The list begins at an index of 0.
 //
 // Returns an array of type APIAccessRight objects.
-func (b *Bluecat) GetAccessRightsForUser(userid int64, count, start int32) ([]APIAccessRight, error) {
+func (b *Bluecat) GetAccessRightsForUser(userid int, count, start int) ([]APIAccessRight, error) {
 	var results []APIAccessRight
 	req := fmt.Sprintf("https://%s%s/getAccessRightsForUser?userId=%d&count=%d&start=%d",
 		b.Server, b.URI, userid, count, start)
@@ -463,7 +463,7 @@ func (b *Bluecat) GetAccessRightsForUser(userid int64, count, start int32) ([]AP
 //
 // Returns the list of additional IP addresses configured on the server in the format: [IP,serviceType|IP,serviceType].
 // For example, 10.0.0.10/32,loopback|11.0.0.3/24,service|12.0.0.3/32,loopback. Return type is a string.
-func (b *Bluecat) GetAdditionalIPAddresses(adonisid int64, properties string) (string, error) {
+func (b *Bluecat) GetAdditionalIPAddresses(adonisid int, properties string) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getAdditionalIPAddresses?adonisId=%d&properties=%s",
 		b.Server, b.URI, adonisid, properties)
 	resp, err := resty.R().
@@ -505,7 +505,7 @@ func (b *Bluecat) GetAdditionalIPAddresses(adonisid int64, properties string) (s
 // Parameter `start` indicates where in the list of objects to start returning objects. The list begins at an index of 0.
 //
 // Returns an array of Alias APIEntity objects.
-func (b *Bluecat) GetAliasesByHint(options string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetAliasesByHint(options string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getAliasesByHint?options=%s&count=%d&start=%d",
 		b.Server, b.URI, options, count, start)
@@ -573,7 +573,7 @@ func (b *Bluecat) GetConfigurationGroups() (string, error) {
 // `setting` is the name of the specific setting to be read. Only the option inheritance OPTION_INHERITANCE setting is supported.
 //
 // Returns the properties of the setting of the configuration. Return type is a string.
-func (b *Bluecat) GetConfigurationSetting(configurationid int64, setting string) (string, error) {
+func (b *Bluecat) GetConfigurationSetting(configurationid int, setting string) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getConfigurationSetting?configurationId=%d&settingName=%s",
 		b.Server, b.URI, configurationid, setting)
 	resp, err := resty.R().
@@ -624,7 +624,7 @@ func (b *Bluecat) GetConfigurationsByGroup(group string) ([]APIEntity, error) {
 // to zero. Omitting this parameter from the method call will result in an error.
 //
 // Returns the specified DHCPv6 client option object from the database. Return type is APIDeploymentOption.
-func (b *Bluecat) GetDHCP6ClientDeploymentOption(entityid int64, name string, serverid int64) (APIDeploymentOption, error) {
+func (b *Bluecat) GetDHCP6ClientDeploymentOption(entityid int, name string, serverid int) (APIDeploymentOption, error) {
 	var results APIDeploymentOption
 	req := fmt.Sprintf("https://%s%s/getDHCP6ClientDeploymentOption?entityId=%d&name=%s&serverId=%d",
 		b.Server, b.URI, entityid, name, serverid)
@@ -654,7 +654,7 @@ func (b *Bluecat) GetDHCP6ClientDeploymentOption(entityid int64, name string, se
 // the method call will result in an error.
 //
 // Returns the requested DHCPv6 service option object from the database. Return type is APIDeploymentOption.
-func (b *Bluecat) GetDHCP6ServiceDeploymentOption(entityid int64, name string, serverid int64) (APIDeploymentOption, error) {
+func (b *Bluecat) GetDHCP6ServiceDeploymentOption(entityid int, name string, serverid int) (APIDeploymentOption, error) {
 	var results APIDeploymentOption
 	req := fmt.Sprintf("https://%s%s/getDHCP6ServiceDeploymentOption?entityId=%d&name=%s&serverId=%d",
 		b.Server, b.URI, entityid, name, serverid)
@@ -684,7 +684,7 @@ func (b *Bluecat) GetDHCP6ServiceDeploymentOption(entityid int64, name string, s
 // result in an error.
 //
 // Returns the specified DHCPv4 client option object from the database. Return type is APIDeploymentOption.
-func (b *Bluecat) GetDHCPClientDeploymentOption(entityid int64, name string, serverid int64) (APIDeploymentOption, error) {
+func (b *Bluecat) GetDHCPClientDeploymentOption(entityid int, name string, serverid int) (APIDeploymentOption, error) {
 	var results APIDeploymentOption
 	req := fmt.Sprintf("https://%s%s/getDHCPClientDeploymentOption?entityId=%d&name=%s&serverId=%d",
 		b.Server, b.URI, entityid, name, serverid)
@@ -711,7 +711,7 @@ func (b *Bluecat) GetDHCPClientDeploymentOption(entityid int64, name string, ser
 //
 // Returns the DHCP deployment role assigned to the specified object, or returns an empty APIDeploymentRol if no role
 // is defined. Return type is APIDeploymentRole.
-func (b *Bluecat) GetDHCPDeploymentRole(entityid, serverinterfaceid int64) (APIDeploymentRole, error) {
+func (b *Bluecat) GetDHCPDeploymentRole(entityid, serverinterfaceid int) (APIDeploymentRole, error) {
 	var results APIDeploymentRole
 	req := fmt.Sprintf("https://%s%s/getDHCPDeploymentRole?entityId=%d&serverInterfaceId=%d",
 		b.Server, b.URI, entityid, serverinterfaceid)
@@ -741,7 +741,7 @@ func (b *Bluecat) GetDHCPDeploymentRole(entityid, serverinterfaceid int64) (APID
 // the method call will result in an error.
 //
 // Returns the requested DHCPv4 service option object from the database. Return type is APIDeploymentOption.
-func (b *Bluecat) GetDHCPServiceDeploymentOption(entityid int64, name string, serverid int64) (APIDeploymentOption, error) {
+func (b *Bluecat) GetDHCPServiceDeploymentOption(entityid int, name string, serverid int) (APIDeploymentOption, error) {
 	var results APIDeploymentOption
 	req := fmt.Sprintf("https://%s%s/getDHCPServiceDeploymentOption?entityId=%d&name=%s&serverId=%d",
 		b.Server, b.URI, entityid, name, serverid)
@@ -771,7 +771,7 @@ func (b *Bluecat) GetDHCPServiceDeploymentOption(entityid int64, name string, se
 // assigned to a server, set this value to 0 (zero). Omitting this parameter from the method call will result in an error.
 //
 // Returns an APIDeploymentOption for the DHCP vendor client deployment option. Return type is APIDeploymentOption.
-func (b *Bluecat) GetDHCPVendorDeploymentOption(entityid, optionid, serverid int64) (APIDeploymentOption, error) {
+func (b *Bluecat) GetDHCPVendorDeploymentOption(entityid, optionid, serverid int) (APIDeploymentOption, error) {
 	var results APIDeploymentOption
 	req := fmt.Sprintf("https://%s%s/getDHCPVendorDeploymentOption?entityId=%d&optionId=%d&serverId=%d",
 		b.Server, b.URI, entityid, optionid, serverid)
@@ -801,7 +801,7 @@ func (b *Bluecat) GetDHCPVendorDeploymentOption(entityid, optionid, serverid int
 //
 // Returns an instance of the type APIDeploymentOption that represents the DNS deployment option or empty if none were found.
 // Return type is APIDeploymentOption.
-func (b *Bluecat) GetDNSDeploymentOption(entityid int64, name string, serverid int64) (APIDeploymentOption, error) {
+func (b *Bluecat) GetDNSDeploymentOption(entityid int, name string, serverid int) (APIDeploymentOption, error) {
 	var results APIDeploymentOption
 	req := fmt.Sprintf("https://%s%s/getDNSDeploymentOption?entityId=%d&name=%s&serverId=%d",
 		b.Server, b.URI, entityid, name, serverid)
@@ -828,7 +828,7 @@ func (b *Bluecat) GetDNSDeploymentOption(entityid int64, name string, serverid i
 // view in which the DNS deployment role is assigned.
 //
 // Returns the requested APIDeploymentRole object. Return type is APIDeploymentRole.
-func (b *Bluecat) GetDNSDeploymentRoleForView(entityid, serverinterfaceid, viewid int64) (APIDeploymentRole, error) {
+func (b *Bluecat) GetDNSDeploymentRoleForView(entityid, serverinterfaceid, viewid int) (APIDeploymentRole, error) {
 	var results APIDeploymentRole
 	req := fmt.Sprintf("https://%s%s/getDNSDeploymentRoleForView?entityId=%d&serverInterfaceId=%d&viewId=%d",
 		b.Server, b.URI, entityid, serverinterfaceid, viewid)
@@ -855,7 +855,7 @@ func (b *Bluecat) GetDNSDeploymentRoleForView(entityid, serverinterfaceid, viewi
 //
 // Returns a DNS deployment role from the specified object, or returns an empty APIDeploymentRole if no role is defined.
 // Return type is APIDeploymentRole.
-func (b *Bluecat) GetDNSDeploymentRole(entityid, serverinterfaceid int64) (APIDeploymentRole, error) {
+func (b *Bluecat) GetDNSDeploymentRole(entityid, serverinterfaceid int) (APIDeploymentRole, error) {
 	var results APIDeploymentRole
 	req := fmt.Sprintf("https://%s%s/getDNSDeploymentRole?entityId=%d&serverInterfaceId=%d",
 		b.Server, b.URI, entityid, serverinterfaceid)
@@ -921,7 +921,7 @@ func (b *Bluecat) GetDNSDeploymentRole(entityid, serverinterfaceid int64) (APIDe
 //
 // Returns all deployment options, array of type APIDeploymentOption, assigned to the specified object including inherited
 // options from higher level parent objects. If an option is inherited and overridden, then only the overriding option will be returned.
-func (b *Bluecat) GetDeploymentOptions(entityid int64, optiontypes string, serverid int64) ([]APIDeploymentOption, error) {
+func (b *Bluecat) GetDeploymentOptions(entityid int, optiontypes string, serverid int) ([]APIDeploymentOption, error) {
 	var results []APIDeploymentOption
 	req := fmt.Sprintf("https://%s%s/getDeploymentOptions?entityId=%d&optionTypes=%s&serverId=%d",
 		b.Server, b.URI, entityid, optiontypes, serverid)
@@ -946,7 +946,7 @@ func (b *Bluecat) GetDeploymentOptions(entityid int64, optiontypes string, serve
 // and networks, DHCP classes, and MAC pools, GetDeploymentRoles returns DNS and DHCP deployment roles.
 //
 // Returns an array of APIDeploymentRole objects representing the deployment roles associated with the specified object.
-func (b *Bluecat) GetDeploymentRoles(entityid int64) ([]APIDeploymentRole, error) {
+func (b *Bluecat) GetDeploymentRoles(entityid int) ([]APIDeploymentRole, error) {
 	var results []APIDeploymentRole
 	req := fmt.Sprintf("https://%s%s/getDeploymentRoles?entityId=%d",
 		b.Server, b.URI, entityid)
@@ -992,7 +992,7 @@ func (b *Bluecat) GetDeploymentTaskStatus(deploymenttasktoken string) (string, e
 // Parameter `deviceid` is the object ID of the discovered device. Parameter `policyid` is the object ID for the IPv4 reconciliation policy.
 //
 // Returns all ARP entries of a specific device. Return type is an array of APIEntity.
-func (b *Bluecat) GetDiscoveredDeviceArpEntries(deviceid, policyid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDeviceArpEntries(deviceid, policyid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDeviceArpEntries?deviceId=%d&policyId=%d",
 		b.Server, b.URI, deviceid, policyid)
@@ -1018,7 +1018,7 @@ func (b *Bluecat) GetDiscoveredDeviceArpEntries(deviceid, policyid int64) ([]API
 // reconciliation policy.
 //
 // Returns all hosts of a specific device. Return type is an array of APIEntity.
-func (b *Bluecat) GetDiscoveredDeviceHosts(deviceid, policyid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDeviceHosts(deviceid, policyid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDeviceHosts?deviceId=%d&policyId=%d",
 		b.Server, b.URI, deviceid, policyid)
@@ -1044,7 +1044,7 @@ func (b *Bluecat) GetDiscoveredDeviceHosts(deviceid, policyid int64) ([]APIEntit
 // reconciliation policy.
 //
 // Returns all interfaces of a specific device. Return type is an array of APIEntity.
-func (b *Bluecat) GetDiscoveredDeviceInterfaces(deviceid, policyid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDeviceInterfaces(deviceid, policyid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDeviceInterfaces?deviceId=%d&policyId=%d",
 		b.Server, b.URI, deviceid, policyid)
@@ -1071,7 +1071,7 @@ func (b *Bluecat) GetDiscoveredDeviceInterfaces(deviceid, policyid int64) ([]API
 // reconciliation policy.
 //
 // Returns all MAC address entries of a specific device. Return type is an array of APIEntity.
-func (b *Bluecat) GetDiscoveredDeviceMacAddressEntries(deviceid, policyid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDeviceMacAddressEntries(deviceid, policyid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDeviceMacAddressEntries?deviceId=%d&policyId=%d",
 		b.Server, b.URI, deviceid, policyid)
@@ -1097,7 +1097,7 @@ func (b *Bluecat) GetDiscoveredDeviceMacAddressEntries(deviceid, policyid int64)
 // reconciliation policy.
 //
 // Returns all networks of a specific device. Return type is an array of APIEntity.
-func (b *Bluecat) GetDiscoveredDeviceNetworks(deviceid, policyid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDeviceNetworks(deviceid, policyid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDeviceNetworks?deviceId=%d&policyId=%d",
 		b.Server, b.URI, deviceid, policyid)
@@ -1123,7 +1123,7 @@ func (b *Bluecat) GetDiscoveredDeviceNetworks(deviceid, policyid int64) ([]APIEn
 // reconciliation policy.
 //
 // Returns all Vlans of a specific device. Return type is an array of APIEntity.
-func (b *Bluecat) GetDiscoveredDeviceVlans(deviceid, policyid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDeviceVlans(deviceid, policyid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDeviceVlans?deviceId=%d&policyId=%d",
 		b.Server, b.URI, deviceid, policyid)
@@ -1149,7 +1149,7 @@ func (b *Bluecat) GetDiscoveredDeviceVlans(deviceid, policyid int64) ([]APIEntit
 // reconciliation policy.
 //
 // Returns the object ID of the discovered device. Return type is APIEntity.
-func (b *Bluecat) GetDiscoveredDevice(deviceid, policyid int64) (APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDevice(deviceid, policyid int) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDevice?deviceId=%d&policyId=%d",
 		b.Server, b.URI, deviceid, policyid)
@@ -1174,7 +1174,7 @@ func (b *Bluecat) GetDiscoveredDevice(deviceid, policyid int64) (APIEntity, erro
 // Parameter `policyid` is the object ID for the IPv4 reconciliation policy.
 //
 // Returns an array of discovered Layer 2 or Layer 3 devices. Return type is an array of APIEntity.
-func (b *Bluecat) GetDiscoveredDevices(deviceid, policyid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetDiscoveredDevices(deviceid, policyid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getDiscoveredDevices?policyId=%d",
 		b.Server, b.URI, policyid)
@@ -1210,7 +1210,7 @@ func (b *Bluecat) GetDiscoveredDevices(deviceid, policyid int64) ([]APIEntity, e
 // value cannot be null or empty.
 //
 // Returns an array of type APIEntity. The array is empty if there are no matching entities.
-func (b *Bluecat) GetEntitiesByNameUsingOptions(name, options string, parentid int64, objecttype string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetEntitiesByNameUsingOptions(name, options string, parentid int, objecttype string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getEntitiesByNameUsingOptions?name=%s&options=%s&parentId=%d&type=%s&count=%d&start=%d",
 		b.Server, b.URI, name, options, parentid, objecttype, count, start)
@@ -1256,7 +1256,7 @@ func (b *Bluecat) GetEntitiesByNameUsingOptions(name, options string, parentid i
 // The list begins at an index of 0.
 //
 // Returns an array of host record APIEntity objects.
-func (b *Bluecat) GetHostRecordsByHint(options string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetHostRecordsByHint(options string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getHostRecordsByHint?options=%s&count=%d&start=%d",
 		b.Server, b.URI, options, count, start)
@@ -1282,7 +1282,7 @@ func (b *Bluecat) GetHostRecordsByHint(options string, count, start int32) ([]AP
 // or DHCP range in which this address is located.
 //
 // Returns the requested IPv4 Address object from the database. Return type is APIEntity.
-func (b *Bluecat) GetIP4Address(address string, containerid int64) (APIEntity, error) {
+func (b *Bluecat) GetIP4Address(address string, containerid int) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getIP4Address?address=%s&containerId=%d",
 		b.Server, b.URI, address, containerid)
@@ -1334,7 +1334,7 @@ func (b *Bluecat) GetIP4Address(address string, containerid int64) (APIEntity, e
 //
 // Returns an array, type APIEntity, of IPv4 networks based on the input argument without their properties fields populated, or returns
 // an empty array if containerId is invalid. If no access right option is specified, the View access level will be used by default.
-func (b *Bluecat) GetIP4NetworksByHint(containerid int64, options string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetIP4NetworksByHint(containerid int, options string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getIP4NetworksByHint?containerId=%d&options=%s&count=%d&start=%d",
 		b.Server, b.URI, containerid, options, count, start)
@@ -1360,7 +1360,7 @@ func (b *Bluecat) GetIP4NetworksByHint(containerid int64, options string, count,
 // address is located. The container can be a configuration, an IPv6 block, or an IPv6 network.
 //
 // Returns an APIEntity for the specified IPv6 address. The APIEntity is empty of the IPv6 address does not exist.
-func (b *Bluecat) GetIP6Address(address string, containerid int64) (APIEntity, error) {
+func (b *Bluecat) GetIP6Address(address string, containerid int) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getIP6Address?address=%s&containerId=%d",
 		b.Server, b.URI, address, containerid)
@@ -1416,7 +1416,7 @@ func (b *Bluecat) GetIP6Address(address string, containerid int64) (APIEntity, e
 //
 // Returns an array, type APIEntity, of IPv6 objects based on the input argument without their properties fields populated, or
 // returns an empty array if containerId is invalid. If no access right option is specified, the View access level will be used by default.
-func (b *Bluecat) GetIP6ObjectsByHint(containerid int64, objecttype, options string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetIP6ObjectsByHint(containerid int, objecttype, options string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getIP6ObjectsByHint?containerId=%d&objectType=%s&options=%s&count=%d&start=%d",
 		b.Server, b.URI, containerid, objecttype, options, count, start)
@@ -1450,7 +1450,7 @@ func (b *Bluecat) GetIP6ObjectsByHint(containerid int64, objecttype, options str
 // for the IPv4 or IPv6 address.
 //
 // Returns an APIEntity for the object containing the specified address.
-func (b *Bluecat) GetIPRangeByIP(address string, containerid int64, objecttype string) (APIEntity, error) {
+func (b *Bluecat) GetIPRangeByIP(address string, containerid int, objecttype string) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getIPRangeByIP?address=%s&containerId=%d&type=%s",
 		b.Server, b.URI, address, containerid, objecttype)
@@ -1479,7 +1479,7 @@ func (b *Bluecat) GetIPRangeByIP(address string, containerid int64, objecttype s
 // of the constants listed in DNSSEC key format.
 //
 // Returns a string containing up to two active KSK(s) of an entity.
-func (b *Bluecat) GetKSK(entityid int64, format string) (string, error) {
+func (b *Bluecat) GetKSK(entityid int, format string) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getKSK?entityId=%d&format=%s",
 		b.Server, b.URI, entityid, format)
 	resp, err := resty.R().
@@ -1511,7 +1511,7 @@ func (b *Bluecat) GetKSK(entityid int64, format string) (string, error) {
 // objects to start returning objects. The list begins at an index of 0. This value cannot be null or empty.
 //
 // Returns a string containing up to two active KSK(s) of an entity. Return type is an array of APIEntity.
-func (b *Bluecat) GetLinkedEntities(entityid int64, linkedtype string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetLinkedEntities(entityid int, linkedtype string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getLinkedEntities?entityId=%d&type=%s&count=%d&start=%d",
 		b.Server, b.URI, entityid, linkedtype, count, start)
@@ -1574,7 +1574,7 @@ func (b *Bluecat) GetLocationByCode(code string) (APIEntity, error) {
 // is the MAC address in the format nnnnnnnnnnnn, nn-nn-nn-nn-nn-nn or nn:nn:nn:nn:nn:nn, where nn is a hexadecimal value.
 //
 // Returns an APIEntity for the MAC address. Returns an empty APIEntity if the MAC address does not exist.
-func (b *Bluecat) GetMACAddress(configid int64, macaddress string) (APIEntity, error) {
+func (b *Bluecat) GetMACAddress(configid int, macaddress string) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getMACAddress?configurationId=%d&macAddress=%s",
 		b.Server, b.URI, configid, macaddress)
@@ -1600,7 +1600,7 @@ func (b *Bluecat) GetMACAddress(configid int64, macaddress string) (APIEntity, e
 // Parameter `rangeid` is the object ID of the IPv4 DHCP range.
 //
 // Returns the possible start address and end address for the specified IPv4 DHCP range object in the form of array of length 2.
-func (b *Bluecat) GetMaxAllowedRange(rangeid int64) (string, error) {
+func (b *Bluecat) GetMaxAllowedRange(rangeid int) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getMaxAllowedRange?rangeId=%d",
 		b.Server, b.URI, rangeid)
 	resp, err := resty.R().
@@ -1621,7 +1621,7 @@ func (b *Bluecat) GetMaxAllowedRange(rangeid int64) (string, error) {
 //
 // Returns an array of IP address APIEntity objects with their linked host records and the IP addresses that are assigned
 // as DHCP Reserved, Static or Gateway. The output has the following format: hostId : hostName : zoneId : zoneName : viewId : viewName : hasAlias;.
-func (b *Bluecat) GetNetworkLinkedProperties(networkid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetNetworkLinkedProperties(networkid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getNetworkLinkedProperties?networkId=%d",
 		b.Server, b.URI, networkid)
@@ -1647,7 +1647,7 @@ func (b *Bluecat) GetNetworkLinkedProperties(networkid int64) ([]APIEntity, erro
 // Parameter `parentid` is the object ID for configuration, block, or network in which to look for the next available address.
 //
 // Returns the next available IPv4 address in an existing network as a string.
-func (b *Bluecat) GetNextAvailableIP4Address(parentid int64) (string, error) {
+func (b *Bluecat) GetNextAvailableIP4Address(parentid int) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getNextAvailableIP4Address?parentId=%d",
 		b.Server, b.URI, parentid)
 	resp, err := resty.R().
@@ -1674,7 +1674,7 @@ func (b *Bluecat) GetNextAvailableIP4Address(parentid int64) (string, error) {
 //
 // Returns the object ID for the existing next available IPv4 network or, if the next available network did not exist and
 // autoCreate was set to true, the newly created IPv4 network.
-func (b *Bluecat) GetNextAvailableIP4Network(autocreate, islargerallowed bool, parentid, size int64) (string, error) {
+func (b *Bluecat) GetNextAvailableIP4Network(autocreate, islargerallowed bool, parentid, size int) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getNextAvailableIP4Network?autoCreate=%t&isLargerAllowed=%t&parentId=%d&size=%d",
 		b.Server, b.URI, autocreate, islargerallowed, parentid, size)
 	resp, err := resty.R().
@@ -1724,7 +1724,7 @@ func (b *Bluecat) GetNextAvailableIP4Network(autocreate, islargerallowed bool, p
 //
 // Returns the object ID, type APIEntity, for the existing next available IPv4 range or, if the next available IP range does not exist and
 // autoCreate was set to true, the newly created IPv4 range.
-func (b *Bluecat) GetNextAvailableIPRange(parentid int64, properties string, size int64, objecttype string) (APIEntity, error) {
+func (b *Bluecat) GetNextAvailableIPRange(parentid int, properties string, size int, objecttype string) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getNextAvailableIPRange?parentId=%d&properties=%s&size=%d&type=%s",
 		b.Server, b.URI, parentid, properties, size, objecttype)
@@ -1778,7 +1778,7 @@ func (b *Bluecat) GetNextAvailableIPRange(parentid int64, properties string, siz
 // Returns consecutive matching IPv4 range object IDs. If the next available ranges do not exist and you have set the
 // autoCreate property to true, new IPv4 ranges will be created and their object IDs will be returned. Return type is
 // an array of APIEntity.
-func (b *Bluecat) GetNextAvailableIPRanges(parentid int64, properties string, size int64, objecttype string, count int32) ([]APIEntity, error) {
+func (b *Bluecat) GetNextAvailableIPRanges(parentid int, properties string, size int, objecttype string, count int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getNextAvailableIPRanges?parentId=%d&properties=%s&size=%d&type=%s&count=%d",
 		b.Server, b.URI, parentid, properties, size, objecttype, count)
@@ -1817,7 +1817,7 @@ func (b *Bluecat) GetNextAvailableIPRanges(parentid int64, properties string, si
 // offset=10.10.10.100|excludeDHCPRange=true|
 //
 // Returns the IPv4 address in octet notation. Return type is a string.
-func (b *Bluecat) GetNextIP4Address(parentid int64, properties string) (string, error) {
+func (b *Bluecat) GetNextIP4Address(parentid int, properties string) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getNextIP4Address?parentId=%d&properties=%s",
 		b.Server, b.URI, parentid, properties)
 	resp, err := resty.R().
@@ -1838,7 +1838,7 @@ func (b *Bluecat) GetNextIP4Address(parentid int64, properties string) (string, 
 // Parameter `entityid` is the entity ID of the parent object.
 //
 // Returns the APIEntity for the parent entity with its properties fields populated.
-func (b *Bluecat) GetParent(entityid int64) (APIEntity, error) {
+func (b *Bluecat) GetParent(entityid int) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getParent?entityId=%d",
 		b.Server, b.URI, entityid)
@@ -1931,7 +1931,7 @@ func (b *Bluecat) GetReplicationInfo() (string, error) {
 // Parameter `serverid` is the object ID of the server with which deployment roles are associated.
 //
 // Returns a list of all deployment roles associated with the server. Return type is an array of APIDeploymentRole.
-func (b *Bluecat) GetServerDeploymentRoles(serverid int64) ([]APIDeploymentRole, error) {
+func (b *Bluecat) GetServerDeploymentRoles(serverid int) ([]APIDeploymentRole, error) {
 	var results []APIDeploymentRole
 	req := fmt.Sprintf("https://%s%s/getServerDeploymentRoles?serverId=%d",
 		b.Server, b.URI, serverid)
@@ -1957,7 +1957,7 @@ func (b *Bluecat) GetServerDeploymentRoles(serverid int64) ([]APIDeploymentRole,
 // deployment status needs to be checked.
 //
 // Returns status code for deployment of a particular server. Return type is a string.
-func (b *Bluecat) GetServerDeploymentStatus(properties string, serverid int64) (string, error) {
+func (b *Bluecat) GetServerDeploymentStatus(properties string, serverid int) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getServerDeploymentStatus?properties=%s&serverId=%d",
 		b.Server, b.URI, properties, serverid)
 	resp, err := resty.R().
@@ -1978,7 +1978,7 @@ func (b *Bluecat) GetServerDeploymentStatus(properties string, serverid int64) (
 // Parameter `roleid` is the object ID for the deployment role whose servers are to be returned.
 //
 // Returns an APIEntity object representing the servers associated with the specified deployment role.
-func (b *Bluecat) GetServerForRole(roleid int64) (APIEntity, error) {
+func (b *Bluecat) GetServerForRole(roleid int) (APIEntity, error) {
 	var results APIEntity
 	req := fmt.Sprintf("https://%s%s/getServerForRole?roleId=%d",
 		b.Server, b.URI, roleid)
@@ -2005,7 +2005,7 @@ func (b *Bluecat) GetServerForRole(roleid int64) (APIEntity, error) {
 //
 // Returns an array of type APIEntity, of all the IPv4 networks linked to the given shared network tag. If no networks
 // are found, returns an empty array.
-func (b *Bluecat) GetSharedNetworks(tagid int64) ([]APIEntity, error) {
+func (b *Bluecat) GetSharedNetworks(tagid int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getSharedNetworks?tagId=%d",
 		b.Server, b.URI, tagid)
@@ -2049,7 +2049,7 @@ func (b *Bluecat) GetSystemInfo() (string, error) {
 // Parameter `taskid` is the task ID of the IPv4 network template.
 //
 // Returns a JSON string that contains the template status.
-func (b *Bluecat) GetTemplateTaskStatus(taskid int64) (string, error) {
+func (b *Bluecat) GetTemplateTaskStatus(taskid int) (string, error) {
 	req := fmt.Sprintf("https://%s%s/getTemplateTaskStatus?taskId=%d",
 		b.Server, b.URI, taskid)
 	resp, err := resty.R().
@@ -2118,7 +2118,7 @@ func (b *Bluecat) GetUserDefinedFields(requiredfieldsonly bool, objecttype strin
 //
 // Returns an array, of type APIEntity, of zones based on the input argument without their properties fields populated, or returns
 // an empty array if containerId is invalid. If no access right option is specified, the View access level will be used by default.
-func (b *Bluecat) GetZonesByHint(containerid int64, options string, count, start int32) ([]APIEntity, error) {
+func (b *Bluecat) GetZonesByHint(containerid int, options string, count, start int) ([]APIEntity, error) {
 	var results []APIEntity
 	req := fmt.Sprintf("https://%s%s/getZonesByHint?containerId=%d&options=%s&count=%d&start=%d",
 		b.Server, b.URI, containerid, options, count, start)
@@ -2145,7 +2145,7 @@ func (b *Bluecat) GetZonesByHint(containerid int64, options string, count, start
 // MAC address in the format nnnnnnnnnnnn, nn-nn-nn-nn-nn-nn or nn:nn:nn:nn:nn:nn, where nn is a hexadecimal value.
 //
 // Returns a Boolean value indicating whether the address is allocated.
-func (b *Bluecat) IsAddressAllocated(configid int64, ipaddress, macaddress string) (string, error) {
+func (b *Bluecat) IsAddressAllocated(configid int, ipaddress, macaddress string) (string, error) {
 	req := fmt.Sprintf("https://%s%s/isAddressAllocated?configurationId=%d&ipAddress=%s&macAddress=%s",
 		b.Server, b.URI, configid, ipaddress, macaddress)
 	resp, err := resty.R().
@@ -2191,7 +2191,7 @@ func (b *Bluecat) IsMigrationRunning(filename string) (string, error) {
 // Parameter `entity1id` is the object ID of the first entity in the pair of linked entities. Parameter `entity2id` is
 // the object ID of the second entity in the pair of linked entities. Parameter `properties` Adds object properties,
 // including user-defined fields.
-func (b *Bluecat) LinkEntities(entity1id, entity2id int64, properties string) error {
+func (b *Bluecat) LinkEntities(entity1id, entity2id int, properties string) error {
 	req := fmt.Sprintf("https://%s%s/linkEntities?entity1Id=%d&entity2Id=%d&properties=%s",
 		b.Server, b.URI, entity1id, entity2id, properties)
 	_, err := resty.R().
