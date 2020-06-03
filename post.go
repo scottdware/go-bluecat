@@ -60,7 +60,7 @@ import (
 
 // addExternalHostRecord
 
-// addGenericRecord Adds generic records.
+// AddGenericRecord Adds generic records.
 //
 // Parameter `absolutename` is the FQDN of the record. If you are adding a record in a zone that is linked to a incremental
 // naming policy, you must add a single hash sign (#) at the appropriate location in the FQDN. Depending on the policy order value,
@@ -77,7 +77,7 @@ import (
 // Parameter `viewid` is the object ID for the parent view to which you are adding the record.
 //
 // Returns the object ID for the new generic resource record.
-func (b *Bluecat) addGenericRecord(absolutename, properties, rdata string, ttl int64, objecttype string, viewid int64) (string, error) {
+func (b *Bluecat) AddGenericRecord(absolutename, properties, rdata string, ttl int64, objecttype string, viewid int64) (string, error) {
 	req := fmt.Sprintf("https://%s%s/addGenericRecord?absoluteName=%s&rdata=%s&ttl=%d&type=%s&viewId=%d&properties=%s",
 		b.Server, b.URI, absolutename, rdata, ttl, objecttype, viewid, properties)
 	resp, err := resty.R().
